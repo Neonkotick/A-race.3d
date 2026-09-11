@@ -1,31 +1,34 @@
 # А-race.3d
 
-Neon Grid endless runner in Tron Legacy style. HTML5 Canvas game.
+Tron-style neon runner with **skin shop** and **Telegram account binding**.
 
-## Play in browser
+## Play
 
-Enable **GitHub Pages** (Settings → Pages → Branch: `main` → root `/`):
+Upload `index.html` / `A-race.3d.html` to GitHub Pages root.
 
-**https://neonkotick.github.io/A-race.3d/**
+https://neonkotick.github.io/A-race.3d/
 
-## Controls
+## Features
 
-- Swipe **left/right** (or A/D) — change lane
-- Collect crystals, boost, purple shield
-- Shield: **2× speed** + DEREZ obstacles (Tron voxels)
-- 3 lives
+- 6 light-cycle skins (shop, buy with ◆ crystals)
+- Progress bound to Telegram user id (`localStorage` key `arace3d_acc_<id>`)
+- `window.ARaceAPI` for bot backend integration
+- Telegram WebApp SDK (`tg.ready`, expand, haptic)
 
-## Telegram Mini App
+## Telegram Mini App + Bot
 
-1. Enable GitHub Pages (HTTPS URL above).
-2. [@BotFather](https://t.me/BotFather) → `/newbot`
-3. `/newapp` → Web App URL = Pages URL, short name e.g. `race`
-4. Optional: `/setmenubutton` → button «Играть»
+1. Host on HTTPS (GitHub Pages)
+2. BotFather → `/newbot` → `/newapp` → set Web App URL
+3. Optional backend: listen for scores via `ARaceAPI.submitScore(url)` or `ARaceOnSave` hook
 
-Players open: `https://t.me/<bot>/<short_name>`
+### Client API
 
-No backend required for solo play.
+```js
+ARaceAPI.getUser()
+ARaceAPI.getAccount()
+ARaceAPI.getPayload()      // includes initData for server validation
+ARaceAPI.setCloudAccount(data)
+ARaceAPI.submitScore('https://your.api/score')
+```
 
-## License
-
-MIT
+Validate `initData` on the server with the bot token (HMAC) before trusting scores.
